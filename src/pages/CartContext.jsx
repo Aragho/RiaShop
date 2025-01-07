@@ -11,7 +11,6 @@ export const CartProvider = ({ children }) => {
     const storedCart = localStorage.getItem('cart');
     return storedCart ? JSON.parse(storedCart) : [];
   });
-
   const [deliveryFee, setDeliveryFee] = useState(5);
   const [discountPercentage, setDiscountPercentage] = useState(20);
 
@@ -76,3 +75,5 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+export default CartContext;

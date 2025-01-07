@@ -1,11 +1,14 @@
 import React from 'react';
 import { useCart } from './CartContext';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiDeleteBin6Fill } from "react-icons/ri";
-
+import { toast } from 'react-toastify';
 
 export default function CartPage() {
   const { cart, removeFromCart } = useCart();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
 
   if (cart.length === 0) {
     return (
@@ -26,6 +29,15 @@ export default function CartPage() {
 
   const totalAmount = cart.reduce((total, item) => total + item.finalPrice, 0).toFixed(2);
 
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      toast.error('You need to log in to proceed to checkout.');
+      navigate('/login');
+    } else {
+      navigate('/checkout');
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-4xl font-bold text-gray-800 mb-8">Your Cart</h1>
@@ -35,11 +47,11 @@ export default function CartPage() {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Items</h2>
           {cart.map((item, index) => (
             <div key={index} className="flex items-center mb-6 border-b pb-6">
-             <img
+              <img
                 src={item.product?.images && item.product.images.length > 0 ? item.product.images[0] : 'https://via.placeholder.com/150'} 
                 alt={item.product?.title || 'Product Image'}
                 className="w-24 h-24 object-cover rounded shadow-sm"
-                />
+              />
               <div className="ml-6 flex-1">
                 <h3 className="text-xl font-semibold text-gray-700">{item.product?.title}</h3>
                 <p className="text-sm text-gray-500">Color: {item.selectedColor}</p>
@@ -80,13 +92,13 @@ export default function CartPage() {
             </div>
           </div>
 
-        
           <div className="mt-6">
-            <Link to ="/checkout">
-              <button className="w-full bg-black text-white py-3 rounded shadow hover:bg-gray-600 transition">
-                Proceed to Checkout
-              </button>
-            </Link>
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-black text-white py-3 rounded shadow hover:bg-gray-600 transition"
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       </div>

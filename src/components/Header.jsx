@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CiShoppingCart, CiLogout } from "react-icons/ci";
 import { IoMdContact, IoMdHome } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from 'react-redux';
-import { useGetProductsSearchQuery } from '../services/dummyjsonApi'; 
+import { useGetProductsSearchQuery } from '../services/dummyjsonApi';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const cartItemCount = useSelector((state) => state.cart?.totalItems || 0);
 
@@ -25,7 +26,7 @@ export default function Header() {
   const handleSearch = (event) => {
     event.preventDefault();
     if (searchQuery.trim() !== "") {
-      setSearchQuery(searchQuery);
+      navigate(`/productDetails?query=${searchQuery}`);
     }
   };
 
@@ -39,7 +40,7 @@ export default function Header() {
           <Link to="/home" className="text-black hover:text-blue-500" aria-label="Home">
             <IoMdHome size={28} />
           </Link>
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <input
               type="text"
               placeholder="Search products..."
@@ -48,11 +49,12 @@ export default function Header() {
               className="border px-3 py-1 rounded w-64 focus:outline-none"
             />
             <button
+              type="submit"
               className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600 hover:text-black"
             >
               <FaSearch size={18} />
             </button>
-          </div>
+          </form>
           <div className="relative">
             <Link to="/cart" className="text-black hover:text-blue-500" aria-label="Shopping Cart">
               <CiShoppingCart size={28} />
@@ -79,21 +81,22 @@ export default function Header() {
       </div>
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-4">
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} 
+              onChange={(event) => setSearchQuery(event.target.value)}
               className="border px-3 py-1 rounded w-full"
             />
             <button
+              type="submit"
               className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600 hover:text-black"
             >
               <FaSearch size={18} />
             </button>
-          </div>
-          <Link to="/" className="block text-black hover:text-gray-500">Home</Link>
+          </form>
+          <Link to="/home" className="block text-black hover:text-gray-500">Home</Link>
           <Link to="/shop" className="block text-black hover:text-gray-500">Shop</Link>
           <Link to="/cart" className="block text-black hover:text-gray-500">Cart</Link>
           <Link to="/contact" className="block text-black hover:text-gray-500">Contact</Link>
@@ -120,7 +123,6 @@ export default function Header() {
                   <p>{product.price}</p>
                   <p className="text-gray-500">{product.category}</p>
                   <p className="text-gray-500">{product.stock} left in stock</p>
-                  <p className="text-gray-500">{product.warrantyInformation}</p>
                 </div>
               ))}
             </div>

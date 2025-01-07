@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 
 const ProductDetails = () => {
   const location = useLocation();
-  const { product } = location.state || {}; // Accessing the product data passed from SideBar
+  const { product } = location.state || {};
 
   if (!product) {
     return <div>No product details available.</div>;

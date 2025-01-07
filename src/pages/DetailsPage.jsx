@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
+import { toast } from 'react-toastify';
 
 export default function DetailsPage() {
   const { state: product } = useLocation();
@@ -38,7 +39,7 @@ export default function DetailsPage() {
 
   const handleAddToCart = () => {
     if (!selectedColor || !selectedSize || quantity <= 0) {
-      alert('Please select a color, size, and ensure quantity is valid!');
+      toast.error('Please select a color, size, and ensure quantity is valid!');
       return;
     }
 
@@ -51,14 +52,14 @@ export default function DetailsPage() {
     };
 
     addToCart(cartItem);
-    alert('Item added to cart!');
+    toast.success('Item added to cart!');
     navigate('/cart');
   };
 
   const handleReviewSubmit = (event) => {
     event.preventDefault();
     if (newReview.comment.trim() === '') {
-      alert('Please write a comment');
+      toast.error('Please write a comment');
       return;
     }
 
@@ -73,8 +74,8 @@ export default function DetailsPage() {
         <div className="md:w-1/4 mb-4 md:mb-0 mr-4 md:block hidden">
           {product?.images && product.images.length>0 ? (
             <img
-              src={product?.images[0]}
-              alt={product?.title}
+              src={product.images[0]}
+              alt={product.title}
               className="w-32 h-32 object-contain rounded"
             />
           ) : (
@@ -85,7 +86,7 @@ export default function DetailsPage() {
         <div className="md:w-1/2 mb-4 md:mb-0">
         {product?.images && product.images.length>0 ? (
             <img
-              src={product?.images[0]}
+              src={product?.images?.[0]}
               alt={product?.title}
               className="w-full h-auto object-cover rounded"
             />

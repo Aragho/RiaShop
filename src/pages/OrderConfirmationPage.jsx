@@ -1,10 +1,20 @@
-import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useEffect, useContext } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
+import CartContext  from '../pages/CartContext';
 
 export default function OrderConfirmationPage() {
   const location = useLocation();
-  const { orderDetails } = location.state || {}; 
+  const { orderDetails } = location.state || {};
+  const { clearCart } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const handleContinueShopping = ()=>{
+    clearCart();
+    navigate("/home")
+
+  }
+   
 
   if (!orderDetails) {
     return <div>Order details not found.</div>;
@@ -58,13 +68,12 @@ export default function OrderConfirmationPage() {
         </div>
       </div>
 
-    
       <div className="text-center mb-4">
-        <Link to="/home">
-          <button className="bg-black hover:bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md">
+          <button 
+          onClick={handleContinueShopping}
+          className="bg-black hover:bg-gray-700 text-white px-6 py-3 rounded-lg shadow-md">
             Continue Shopping
           </button>
-        </Link>
       </div>
 
       <div className="text-center">

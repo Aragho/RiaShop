@@ -1,21 +1,29 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from "../auth/authSlice";
+import { toast } from 'react-toastify';
 
 const Logout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const handleLogout = () => {
+    if (!isAuthenticated) {
+      toast.error('You are not logged in. Please log in first.');
+      navigate('/login');
+      return;
+    }
+
     if (window.confirm('Are you sure you want to log out?')) {
       try {
-        dispatch(logout()); 
-        alert('Logged out successfully!');
-        navigate('/login'); 
+        dispatch(logout());
+        toast.success('Logged out successfully!');
+        navigate('/login');
       } catch (error) {
         console.error('Logout Error:', error);
-        alert('An error occurred while logging out. Please try again.');
+        toast.error('An error occurred while logging out. Please try again.');
       }
     }
   };
