@@ -1,8 +1,8 @@
 import Layout from "../layout/Layout";
 import SignUp from "../auth/SignUp";
 import Login from "../auth/login";
-import ProductDetailsPage from "../pages/ProductDetailsPage"
-import HomePage from "../pages/Homepage/HomePage"
+import ProductDetailsPage from "../pages/ProductDetailsPage";
+// import HomePage from "../pages/Homepage/HomePage"
 import AllCategory from "../pages/AllCategory";
 import DetailsPage from "../pages/DetailsPage";
 import CartPage from "../pages/CartPage";
@@ -11,6 +11,10 @@ import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import Logout from "../auth/Logout";
 // import ReviewForm from "../pages/ReviewForm"
 // import ProductPage from "../pages/ProductPage";
+import HomePage from "../pages/HomePage";
+
+
+
 
 const ROUTES = [
 
@@ -35,6 +39,10 @@ const ROUTES = [
                 path: "/login",
                  element:<Login/>
             },
+            {
+                path:"/home",
+                element:<HomePage/>
+            },
 
              {
                  path: "/productDetails",
@@ -58,11 +66,11 @@ const ROUTES = [
             // //     path: "/commerce",
             // //     element:<Layout/>
             // // },
-             {
-                 path:"/home",
-                 element:<HomePage/>
-             },
-             {
+            // {
+            //     path:"/home",
+            //     element:<HomePage/>
+            // },
+            {
                  path:"/details",
                  element:<DetailsPage/>
             },

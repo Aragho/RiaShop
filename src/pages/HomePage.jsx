@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useGetProductsByCategoryQuery, useGetAllProductsQuery,useGetProductsSearchQuery } from '../../services/dummyjsonApi';
-import ProductCard from '../../reuseables/Cards/ProductCard';
-import AllCategory from "../AllCategory";
 
-const HomePage = () => {
+import React, { useState } from 'react';
+import { useGetProductsByCategoryQuery, useGetAllProductsQuery,useGetProductsSearchQuery } from '../services/dummyjsonApi';
+import ProductCard from "../reuseables/Cards/ProductCard"
+import AllCategory from "../pages/AllCategory";
+
+const HomePage= () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { data: categoryProducts, isLoading: isCategoryLoading, error: categoryError } =
     useGetProductsByCategoryQuery(selectedCategory, {
